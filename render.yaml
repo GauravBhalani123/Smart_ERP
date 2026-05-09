@@ -21,7 +21,7 @@ services:
         generateValue: true
       - key: CLIENT_ORIGIN
         fromService:
-          type: static
+          type: web
           name: erp-saas-frontend
           property: host
       - key: OPENROUTER_API_KEY
@@ -37,7 +37,7 @@ services:
       - key: EMAIL_PASS
         sync: false
 
-  - type: static
+  - type: web
     name: erp-saas-frontend
     env: static
     rootDir: frontend
