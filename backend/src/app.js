@@ -32,13 +32,15 @@ app.use(express.json());
 app.use(morgan("dev"));
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-app.use(express.static(path.join(__dirname, "../public")));
+const frontendDistPath = path.join(__dirname, "../../frontend/dist");
+
+app.use(express.static(frontendDistPath));
 
 app.use("/api", routes);
 
 app.get("*", (req, res) => {
   if (req.path.startsWith("/api")) return res.status(404).json({ message: "Not found" });
-  res.sendFile(path.join(__dirname, "../public/index.html"));
+  res.sendFile(path.join(frontendDistPath, "index.html"));
 });
 
 app.use((err, _req, res, _next) => {
