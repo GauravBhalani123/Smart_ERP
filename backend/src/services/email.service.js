@@ -7,10 +7,15 @@ const emailPass = (emailPassRaw || "").replace(/\s+/g, "");
 let transporter = null;
 if (emailUser && emailPass) {
   transporter = nodemailer.createTransport({
-    service: "gmail",
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true, // true for 465, false for other ports
     auth: {
       user: emailUser,
       pass: emailPass,
+    },
+    tls: {
+      rejectUnauthorized: false, // Helps with some cloud hosting certificate issues
     },
     connectionTimeout: 10000,
     greetingTimeout: 10000,
