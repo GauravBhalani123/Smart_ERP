@@ -86,6 +86,8 @@ export default function InvoicesPage() {
       });
       if (result.emailStatus?.skipped) {
         setError(result.emailStatus.reason || "Email skipped");
+      } else if (result.emailStatus?.error) {
+        setError(`Email failed: ${result.emailStatus.error}`);
       } else {
         const accepted = result.emailStatus?.accepted?.[0] || emailTo || invoice.customer?.email || "mail";
         setToast(`Mail sent to: ${accepted}`);
