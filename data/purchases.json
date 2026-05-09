@@ -1,0 +1,20 @@
+[
+  {
+    "id": "1cab0d24-0d2a-49e1-aedc-2ed7e2f416b4",
+    "stage": "GRN",
+    "vendorId": "a276d6fa-55c9-44e2-b080-1e91c0081222",
+    "vendorName": "gaurav",
+    "items": [
+      {
+        "productId": "para001",
+        "quantity": 10,
+        "rate": 500,
+        "location": "MAIN",
+        "rack": "R1"
+      }
+    ],
+    "total": 5000,
+    "grnNumber": "100",
+    "createdAt": "2026-02-28T06:06:28.785Z"
+  }
+]

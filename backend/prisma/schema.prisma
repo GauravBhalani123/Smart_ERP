@@ -1,0 +1,289 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  MANAGER
+  STAFF
+}
+
+enum StockStatus {
+  NORMAL
+  LOW
+  CRITICAL
+  OUT
+}
+
+enum PurchaseStatus {
+  DRAFT
+  RECEIVED
+  CANCELLED
+}
+
+enum SalesStatus {
+  DRAFT
+  CONFIRMED
+  CANCELLED
+}
+
+model User {
+  id           String   @id @default(cuid())
+  fullName     String
+  email        String   @unique
+  passwordHash String
+  role         Role     @default(STAFF)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  notifications Notification[]
+  activities    Activity[]
+  aiConversations AIConversation[]
+  aiLogs         AILog[]
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  description String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  products    Product[]
+}
+
+model Product {
+  id             String              @id @default(cuid())
+  name           String
+  sku            String              @unique
+  description    String?
+  categoryId     String?
+  category       Category?           @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  salePrice      Float
+  costPrice      Float
+  reorderLevel   Int                 @default(10)
+  criticalLevel  Int                 @default(5)
+  isActive       Boolean             @default(true)
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
+  inventory      Inventory?
+  movements      StockMovement[]
+  purchaseItems  PurchaseItem[]
+  salesItems     SalesItem[]
+  invoiceItems   InvoiceItem[]
+}
+
+model Inventory {
+  id         String      @id @default(cuid())
+  productId   String      @unique
+  product     Product     @relation(fields: [productId], references: [id], onDelete: Cascade)
+  quantity    Int         @default(0)
+  reserved    Int         @default(0)
+  status      StockStatus @default(OUT)
+  updatedAt   DateTime    @updatedAt
+}
+
+model StockMovement {
+  id          String   @id @default(cuid())
+  productId   String
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  type        String
+  quantity    Int
+  reference   String?
+  notes       String?
+  createdAt   DateTime @default(now())
+}
+
+model Supplier {
+  id          String      @id @default(cuid())
+  name        String
+  email       String?
+  phone       String?
+  address     String?
+  gstNumber   String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  purchases   Purchase[]
+}
+
+model Customer {
+  id          String      @id @default(cuid())
+  name        String
+  email       String?
+  phone       String?
+  address     String?
+  gstNumber   String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  sales       Sale[]
+  invoices    Invoice[]
+}
+
+model Purchase {
+  id            String         @id @default(cuid())
+  purchaseNo    String         @unique
+  supplierId    String
+  supplier      Supplier       @relation(fields: [supplierId], references: [id], onDelete: Restrict)
+  status        PurchaseStatus @default(RECEIVED)
+  subtotal      Float
+  taxAmount     Float          @default(0)
+  totalAmount   Float
+  notes         String?
+  purchaseDate  DateTime       @default(now())
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  items         PurchaseItem[]
+}
+
+model PurchaseItem {
+  id          String    @id @default(cuid())
+  purchaseId   String
+  purchase     Purchase  @relation(fields: [purchaseId], references: [id], onDelete: Cascade)
+  productId    String
+  product      Product   @relation(fields: [productId], references: [id], onDelete: Restrict)
+  quantity     Int
+  unitCost     Float
+  lineTotal    Float
+}
+
+model Sale {
+  id           String      @id @default(cuid())
+  saleNo       String      @unique
+  customerId   String
+  customer     Customer    @relation(fields: [customerId], references: [id], onDelete: Restrict)
+  status       SalesStatus @default(CONFIRMED)
+  subtotal     Float
+  taxAmount    Float       @default(0)
+  totalAmount  Float
+  profitAmount Float       @default(0)
+  notes        String?
+  saleDate     DateTime    @default(now())
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  items        SalesItem[]
+  invoice      Invoice?
+}
+
+model SalesItem {
+  id          String   @id @default(cuid())
+  saleId      String
+  sale        Sale     @relation(fields: [saleId], references: [id], onDelete: Cascade)
+  productId   String
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Restrict)
+  quantity    Int
+  unitPrice   Float
+  unitCost    Float
+  lineTotal   Float
+  lineProfit  Float
+}
+
+model Invoice {
+  id            String        @id @default(cuid())
+  invoiceNo     String        @unique
+  saleId        String?       @unique
+  sale          Sale?         @relation(fields: [saleId], references: [id], onDelete: SetNull)
+  customerId    String
+  customer      Customer      @relation(fields: [customerId], references: [id], onDelete: Restrict)
+  issueDate     DateTime      @default(now())
+  dueDate       DateTime?
+  companyName   String?
+  companyLogo   String?
+  qrText        String?
+  notes         String?
+  subtotal      Float
+  taxAmount     Float
+  totalAmount   Float
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  items         InvoiceItem[]
+}
+
+model InvoiceItem {
+  id          String   @id @default(cuid())
+  invoiceId   String
+  invoice     Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  productId   String
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Restrict)
+  quantity    Int
+  unitPrice   Float
+  taxRate     Float    @default(18)
+  lineTotal   Float
+}
+
+model Notification {
+  id          String   @id @default(cuid())
+  userId      String?
+  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  type        String
+  title       String
+  message     String
+  isRead      Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
+
+model Activity {
+  id          String   @id @default(cuid())
+  userId      String?
+  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  action      String
+  entityType  String
+  entityId    String?
+  details     String?
+  createdAt   DateTime @default(now())
+}
+
+model AIConversation {
+  id          String      @id @default(cuid())
+  userId      String?
+  user        User?       @relation(fields: [userId], references: [id], onDelete: SetNull)
+  language    String      @default("en")
+  title       String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  messages    AIMessage[]
+}
+
+model AIMessage {
+  id             String          @id @default(cuid())
+  conversationId String
+  conversation   AIConversation  @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  role           String
+  content        String
+  createdAt      DateTime        @default(now())
+}
+
+model AILog {
+  id          String   @id @default(cuid())
+  userId      String?
+  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  prompt      String
+  response    String
+  model       String
+  metadata    String?
+  createdAt   DateTime @default(now())
+}
+
+model MarketPrice {
+  id          String   @id @default(cuid())
+  material    String
+  source      String
+  unit        String   @default("INR/kg")
+  price       Float
+  changePct   Float    @default(0)
+  trend       String   @default("STABLE")
+  capturedAt  DateTime @default(now())
+}
+
+model Prediction {
+  id          String   @id @default(cuid())
+  type        String
+  title       String
+  details     String
+  value       Float?
+  confidence  Float?
+  createdAt   DateTime @default(now())
+}

@@ -1,0 +1,32 @@
+[
+  {
+    "id": "d6e69556-7efb-4f3f-942d-1cc7ae92a995",
+    "type": "SALE",
+    "refId": "80e2e4a1-dfce-471e-9d0b-887e1f69be96",
+    "customerId": "8b1cbb40-e9a9-4e04-945c-d9871911389f",
+    "amount": 118,
+    "credit": 118,
+    "debit": 0,
+    "createdAt": "2026-02-27T14:25:05.606Z"
+  },
+  {
+    "id": "87f80dc3-fa40-4727-864a-40bac75a942f",
+    "type": "SALE",
+    "refId": "7efc4af1-1716-4ac6-9a0d-8aeb89b47d9d",
+    "customerId": "bc4176f8-5381-4ab6-bd22-13f5ec16cbe2",
+    "amount": 1180,
+    "credit": 1180,
+    "debit": 0,
+    "createdAt": "2026-02-28T03:43:29.178Z"
+  },
+  {
+    "id": "01428c38-7d36-4791-af91-e3c8b0e8479c",
+    "type": "PURCHASE",
+    "refId": "1cab0d24-0d2a-49e1-aedc-2ed7e2f416b4",
+    "vendorId": "a276d6fa-55c9-44e2-b080-1e91c0081222",
+    "amount": 5000,
+    "debit": 5000,
+    "credit": 0,
+    "createdAt": "2026-02-28T06:06:28.785Z"
+  }
+]

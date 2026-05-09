@@ -1,0 +1,17 @@
+export const sidebarModules = [
+  { label: "Dashboard", path: "/" },
+  { label: "Users", path: "/users" },
+  { label: "Categories", path: "/categories" },
+  { label: "Products", path: "/products" },
+  { label: "Inventory", path: "/inventory" },
+  { label: "Production", path: "/production" },
+  { label: "Sales", path: "/sales" },
+  { label: "Purchases", path: "/purchases" },
+  { label: "Customers", path: "/customers" },
+  { label: "Suppliers", path: "/suppliers" },
+  { label: "Invoices", path: "/invoices" },
+  { label: "AI Assistant", path: "/ai-assistant" },
+  { label: "Market Intelligence", path: "/market-intelligence" },
+  { label: "Reports", path: "/reports" },
+  { label: "Settings", path: "/settings" },
+];

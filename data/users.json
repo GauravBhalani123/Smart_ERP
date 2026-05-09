@@ -1,0 +1,9 @@
+[
+  {
+    "id": "a5cb0bb7-0672-4d0e-a5c6-1afd126e7fa0",
+    "username": "admin",
+    "passwordHash": "$2b$10$y1Exs4VQI4cZ0kscpuS0Iejx23vWCLZ5CQmJThkMFcn.62QbE/qiW",
+    "role": "Admin",
+    "active": true
+  }
+]

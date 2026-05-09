@@ -1,0 +1,29 @@
+[
+  {
+    "key": "|MAIN|R1",
+    "productId": "",
+    "location": "MAIN",
+    "rack": "R1",
+    "quantity": -1,
+    "lastReason": "sale",
+    "updatedAt": "2026-02-27T14:25:05.607Z"
+  },
+  {
+    "key": "xsmnbcdsmcj|MAIN|R1",
+    "productId": "xsmnbcdsmcj",
+    "location": "MAIN",
+    "rack": "R1",
+    "quantity": -1,
+    "lastReason": "sale",
+    "updatedAt": "2026-02-28T03:43:29.180Z"
+  },
+  {
+    "key": "para001|MAIN|R1",
+    "productId": "para001",
+    "location": "MAIN",
+    "rack": "R1",
+    "quantity": 10,
+    "lastReason": "purchase",
+    "updatedAt": "2026-02-28T06:06:28.788Z"
+  }
+]

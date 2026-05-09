@@ -1,0 +1,49 @@
+[
+  {
+    "id": "80e2e4a1-dfce-471e-9d0b-887e1f69be96",
+    "stage": "INVOICE",
+    "customerId": "8b1cbb40-e9a9-4e04-945c-d9871911389f",
+    "customerName": "mmmm",
+    "items": [
+      {
+        "productId": "",
+        "quantity": 1,
+        "rate": 100,
+        "gstRate": 18
+      }
+    ],
+    "totals": {
+      "subTotal": 100,
+      "gstTotal": 18,
+      "grandTotal": 118
+    },
+    "createdAt": "2026-02-27T14:25:05.606Z",
+    "dueDate": null,
+    "paid": false
+  },
+  {
+    "id": "7efc4af1-1716-4ac6-9a0d-8aeb89b47d9d",
+    "stage": "INVOICE",
+    "customerId": "bc4176f8-5381-4ab6-bd22-13f5ec16cbe2",
+    "customerName": "gaurav",
+    "items": [
+      {
+        "productId": "xsmnbcdsmcj",
+        "description": "cdsmncbmc",
+        "quantity": 1,
+        "rate": 1000,
+        "gstRate": 18,
+        "location": "MAIN",
+        "rack": "R1"
+      }
+    ],
+    "totals": {
+      "subTotal": 1000,
+      "gstTotal": 180,
+      "grandTotal": 1180
+    },
+    "createdAt": "2026-02-28T03:43:29.178Z",
+    "dueDate": null,
+    "paid": false
+  }
+]

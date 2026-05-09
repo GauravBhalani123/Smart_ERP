@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-grad-start: #1e293b;
+  --bg-grad-mid: #020617;
+  --bg-grad-end: #020617;
+  --text-main: #e2e8f0;
+  --glass-bg: rgba(15, 23, 42, 0.65);
+  --glass-border: rgba(148, 163, 184, 0.2);
+}
+
+[data-theme="light"] {
+  --bg-grad-start: #dbeafe;
+  --bg-grad-mid: #f8fafc;
+  --bg-grad-end: #f8fafc;
+  --text-main: #0f172a;
+  --glass-bg: rgba(255, 255, 255, 0.78);
+  --glass-border: rgba(71, 85, 105, 0.2);
+}
+
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  background: radial-gradient(circle at top, var(--bg-grad-start) 0%, var(--bg-grad-mid) 50%, var(--bg-grad-end) 100%);
+  color: var(--text-main);
+}
+
+.glass {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.25);
+  backdrop-filter: blur(12px);
+}
