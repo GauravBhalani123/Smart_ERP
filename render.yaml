@@ -21,7 +21,7 @@ services:
         generateValue: true
       - key: CLIENT_ORIGIN
         fromService:
-          type: web
+          type: static
           name: erp-saas-frontend
           property: host
       - key: OPENROUTER_API_KEY
@@ -37,9 +37,8 @@ services:
       - key: EMAIL_PASS
         sync: false
 
-  - type: web
+  - type: static
     name: erp-saas-frontend
-    env: static
     rootDir: frontend
     buildCommand: npm install && npm run build
     publishDir: dist
