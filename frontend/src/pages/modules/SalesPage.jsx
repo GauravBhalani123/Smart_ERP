@@ -22,7 +22,7 @@ export default function SalesPage() {
     ]);
     setRows(sales);
     setCustomers(customersRes);
-    setProducts(productsRes.filter((p) => isFinished(p) || !p.category));
+    setProducts(productsRes);
   }
   useEffect(() => {
     load();
