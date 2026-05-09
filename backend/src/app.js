@@ -10,21 +10,12 @@ import routes from "./routes/index.js";
 
 const app = express();
 
-app.use(helmet());
+app.use(helmet({
+  contentSecurityPolicy: false,
+}));
 app.use(
   cors({
-    origin(origin, callback) {
-      // Allow non-browser tools (no Origin header)
-      if (!origin) return callback(null, true);
-
-      // Allow configured origin
-      if (origin === env.clientOrigin) return callback(null, true);
-
-      // Dev-friendly: allow any localhost port (Vite often changes ports)
-      if (/^http:\/\/localhost:\d+$/.test(origin)) return callback(null, true);
-
-      return callback(new Error("Not allowed by CORS"));
-    },
+    origin: "*",
     credentials: true,
   }),
 );
@@ -32,9 +23,13 @@ app.use(express.json());
 app.use(morgan("dev"));
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const publicPath = path.join(__dirname, "../public");
+const publicPath = path.resolve(__dirname, "../public");
 
-app.use(express.static(publicPath));
+// Serve static files with explicit extensions
+app.use(express.static(publicPath, {
+  extensions: ['html', 'js', 'css'],
+  index: false
+}));
 
 app.use("/api", routes);
 
