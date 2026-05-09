@@ -8,14 +8,20 @@ services:
     env: node
     plan: free
     buildCommand: |
-      npm install --prefix frontend
-      npm run build --prefix frontend
+      # 1. Install and Build Frontend
+      cd frontend
+      npm install
+      npm run build -- --outDir ../backend/public
+      cd ..
+
+      # 2. Install and Setup Backend
       cd backend
       npm install
       rm -rf prisma/migrations
       npx prisma generate
       npx prisma db push --accept-data-loss
       npx prisma db seed
+      cd ..
     startCommand: cd backend && npm start
     envVars:
       - key: NODE_ENV
