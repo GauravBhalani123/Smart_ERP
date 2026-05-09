@@ -4,12 +4,20 @@ databases:
 
 services:
   - type: web
-    name: erp-saas-backend
+    name: erp-saas-unified
     env: node
     plan: free
-    rootDir: backend
-    buildCommand: npm install && npm run prisma:generate && npm run prisma:deploy && npm run prisma:seed
-    startCommand: npm start
+    buildCommand: |
+      npm install
+      npm run build
+      rm -rf backend/public
+      cp -r frontend/dist backend/public
+      cd backend
+      npm install
+      npm run prisma:generate
+      npm run prisma:deploy
+      npm run prisma:seed
+    startCommand: cd backend && npm start
     envVars:
       - key: NODE_ENV
         value: production
@@ -19,11 +27,6 @@ services:
           property: connectionString
       - key: JWT_SECRET
         generateValue: true
-      - key: CLIENT_ORIGIN
-        fromService:
-          type: static
-          name: erp-saas-frontend
-          property: host
       - key: OPENROUTER_API_KEY
         sync: false
       - key: OPENROUTER_MODEL
@@ -36,15 +39,3 @@ services:
         sync: false
       - key: EMAIL_PASS
         sync: false
-
-  - type: static
-    name: erp-saas-frontend
-    rootDir: frontend
-    buildCommand: npm install && npm run build
-    publishDir: dist
-    envVars:
-      - key: VITE_API_URL
-        fromService:
-          type: web
-          name: erp-saas-backend
-          property: host

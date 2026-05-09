@@ -3,6 +3,8 @@ import cors from "cors";
 import express from "express";
 import helmet from "helmet";
 import morgan from "morgan";
+import path from "path";
+import { fileURLToPath } from "url";
 import { env } from "./config/env.js";
 import routes from "./routes/index.js";
 
@@ -29,7 +31,15 @@ app.use(
 app.use(express.json());
 app.use(morgan("dev"));
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+app.use(express.static(path.join(__dirname, "../public")));
+
 app.use("/api", routes);
+
+app.get("*", (req, res) => {
+  if (req.path.startsWith("/api")) return res.status(404).json({ message: "Not found" });
+  res.sendFile(path.join(__dirname, "../public/index.html"));
+});
 
 app.use((err, _req, res, _next) => {
   console.error(err);
