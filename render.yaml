@@ -10,8 +10,8 @@ services:
     buildCommand: |
       npm install --prefix frontend
       npm run build --prefix frontend
-      rm -rf backend/public
-      cp -r frontend/dist backend/public
+      mkdir -p backend/public
+      cp -r frontend/dist/* backend/public/
       cd backend
       npm install
       rm -rf prisma/migrations

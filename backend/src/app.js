@@ -38,13 +38,7 @@ app.use("/api", routes);
 
 app.get("*", (req, res) => {
   if (req.path.startsWith("/api")) return res.status(404).json({ message: "Not found" });
-  const indexPath = path.join(__dirname, "../public/index.html");
-  res.sendFile(indexPath, (err) => {
-    if (err) {
-      console.error("FAILED TO SEND INDEX.HTML:", err);
-      res.status(500).json({ message: "Frontend not found. Please check build logs.", path: indexPath });
-    }
-  });
+  res.sendFile(path.join(__dirname, "../public/index.html"));
 });
 
 app.use((err, _req, res, _next) => {
