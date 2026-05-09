@@ -38,12 +38,18 @@ app.use("/api", routes);
 
 app.get("*", (req, res) => {
   if (req.path.startsWith("/api")) return res.status(404).json({ message: "Not found" });
-  res.sendFile(path.join(__dirname, "../public/index.html"));
+  const indexPath = path.join(__dirname, "../public/index.html");
+  res.sendFile(indexPath, (err) => {
+    if (err) {
+      console.error("FAILED TO SEND INDEX.HTML:", err);
+      res.status(500).json({ message: "Frontend not found. Please check build logs.", path: indexPath });
+    }
+  });
 });
 
 app.use((err, _req, res, _next) => {
-  console.error(err);
-  res.status(500).json({ message: "Internal server error" });
+  console.error("GLOBAL ERROR:", err);
+  res.status(500).json({ message: "Internal server error", error: err.message, stack: process.env.NODE_ENV === "production" ? null : err.stack });
 });
 
 export default app;
